@@ -30,3 +30,7 @@ redis:
       authCode: "portal:authCode"
     expire:
       authCode: 120
+
+jwt:
+  secret: "Shaw_Liao"
+  expire: 1500
