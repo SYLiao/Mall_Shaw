@@ -1,5 +1,13 @@
 package me.shaw.mall.config;
 
+import me.shaw.mall.component.JwtTokenFilter;
+import me.shaw.mall.component.RestfulAccessDeniedHandler;
+import me.shaw.mall.component.RestfulAuthenticationEnrtyPoint;
+import me.shaw.mall.dto.UserDetailSecurity;
+import me.shaw.mall.model.Permission;
+import me.shaw.mall.model.UserAdmin;
+import me.shaw.mall.service.UserAdminService;
+import me.shaw.mall.service.impl.UserAdminServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,15 +20,28 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.swing.*;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private UserAdminServiceImpl userAdminService;
+
+    @Autowired
+    private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
+
+    @Autowired
+    private RestfulAuthenticationEnrtyPoint restfulAuthenticationEnrtyPoint;
+
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -47,7 +68,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated();
         httpSecurity.headers().cacheControl();
-
+        httpSecurity.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.exceptionHandling()
+                .accessDeniedHandler(restfulAccessDeniedHandler)
+                .authenticationEntryPoint(restfulAuthenticationEnrtyPoint);
     }
 
     @Override
@@ -63,11 +87,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public UserDetailsService userDetailsService(){
-
+        return username -> {
+            UserAdmin admin = userAdminService.getUserByName(username);
+            if(admin != null){
+                List<Permission> permissionList = userAdminService.getPermissionList(admin.getId());
+                return new UserDetailSecurity(admin, permissionList);
+            }
+            throw new UsernameNotFoundException("Incorrect username or password");
+        };
     }
 
     @Bean
-    public JwtAuthenticationTokenFilter
+    public JwtTokenFilter jwtTokenFilter(){
+        return new JwtTokenFilter();
+    }
 
     @Bean
     @Override

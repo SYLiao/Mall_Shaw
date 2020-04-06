@@ -32,5 +32,7 @@ redis:
       authCode: 120
 
 jwt:
+  tokenHeader: Authorization
   secret: "Shaw_Liao"
-  expire: 1500
+  expire: 604800
+  tokenHead: Bearer
