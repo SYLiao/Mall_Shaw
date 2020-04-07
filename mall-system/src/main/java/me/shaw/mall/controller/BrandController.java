@@ -10,14 +10,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 
 import java.util.List;
 
-@Api(tags = "BrandController")
 @RestController
+@Api(tags = "BrandController")
 @RequestMapping("/brand")
 public class BrandController {
 
@@ -26,6 +27,7 @@ public class BrandController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BrandController.class);
 
+    @PreAuthorize("hasAuthority('pms:brand:read')")
     @ApiOperation("Create a new Brand")
     @RequestMapping(value = "/createBrand", method = RequestMethod.POST)
     public CommonResult createBrand(@RequestBody ProductBrand brand){
@@ -42,12 +44,14 @@ public class BrandController {
         return commonResult;
     }
 
+    @PreAuthorize("hasAuthority('pms:brand:read')")
     @ApiOperation("List all exist Brands.")
     @RequestMapping(value = "/listAllBrand", method = RequestMethod.GET)
     public CommonResult<List<ProductBrand>> listAll(){
         return CommonResult.success(productBrandService.listAllBrand());
     }
 
+    @PreAuthorize("hasAuthority('pms:brand:read')")
     @ApiOperation("Update exist brand.")
     @RequestMapping(value = "/updateBrand/{id}", method = RequestMethod.POST)
     public CommonResult updateBrand(@PathVariable("id") Long id, @RequestBody ProductBrand pb){
@@ -62,6 +66,7 @@ public class BrandController {
         }
     }
 
+    @PreAuthorize("hasAuthority('pms:brand:read')")
     @ApiOperation("Delete exist brand.")
     @RequestMapping(value = "/deleteBrand/{id}", method = RequestMethod.DELETE)
     public CommonResult deleteBrand(@PathVariable("id") Long id, @RequestBody ProductBrand pb){
@@ -76,6 +81,7 @@ public class BrandController {
         }
     }
 
+    @PreAuthorize("hasAuthority('pms:brand:read')")
     @ApiOperation("Show brands in a single page.")
     @RequestMapping(value = "/listBrand", method = RequestMethod.GET)
     public CommonResult<CommonPage<ProductBrand>> listBrand(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
@@ -85,6 +91,7 @@ public class BrandController {
         return CommonResult.success(CommonPage.restPage(brands));
     }
 
+    @PreAuthorize("hasAuthority('pms:brand:read')")
     @ApiOperation("Show brand by searching ID.")
     @RequestMapping(value = "/getByBrandId/{id}", method = RequestMethod.GET)
     public CommonResult getById(@PathVariable("id") Long id){

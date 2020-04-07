@@ -16,10 +16,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 
+@Service
 public class UserAdminServiceImpl implements UserAdminService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserAdminServiceImpl.class);

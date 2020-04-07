@@ -30,7 +30,7 @@ public class JwtTokenUtil {
         return Jwts.builder()
                 .setClaims(claims)
                 .setExpiration(generateExpireDate())
-                .signWith(SignatureAlgorithm.ES512, secret)
+                .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
 
@@ -62,7 +62,7 @@ public class JwtTokenUtil {
 
     public boolean validToken(String token, UserDetails userDetails){
         String username = getUsernameFromToken(token);
-        return username.equals(userDetails.getUsername()) && !isTokenExpire(token);
+        return username.equals(userDetails.getUsername()) && isTokenExpire(token);
     }
 
     public boolean isTokenExpire(String token){

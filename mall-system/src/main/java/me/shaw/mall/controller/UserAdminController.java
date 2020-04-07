@@ -2,6 +2,7 @@ package me.shaw.mall.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 import me.shaw.mall.common.CommonResult;
 import me.shaw.mall.model.Permission;
 import me.shaw.mall.model.UserAdmin;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@Api(tags = "User admin controller")
+@Api(tags = "UserAdminController")
 @RequestMapping("/admin")
 public class UserAdminController {
 
@@ -30,7 +31,7 @@ public class UserAdminController {
     private String tokenHead;
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    @ApiModelProperty(value = "User register")
+    @ApiOperation(value = "User register")
     public CommonResult register(@RequestBody UserAdmin userAdmin){
         UserAdmin result = userAdminService.register(userAdmin.getUsername(), userAdmin.getPassword());
         if(result == null) {
@@ -39,7 +40,7 @@ public class UserAdminController {
         return CommonResult.success(result);
     }
 
-    @ApiModelProperty(value = "User login")
+    @ApiOperation(value = "User login")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public CommonResult login(@RequestBody UserAdmin userAdmin){
         String jwt = userAdminService.login(userAdmin.getUsername(), userAdmin.getPassword());
@@ -52,7 +53,7 @@ public class UserAdminController {
         return CommonResult.success(map);
     }
 
-    @ApiModelProperty(value = "Get user permission")
+    @ApiOperation(value = "Get user permission")
     @RequestMapping(value = "/permission/{adminId}", method = RequestMethod.GET)
     public CommonResult<List<Permission>> getPermission(@PathVariable Long adminId){
         List<Permission> result = userAdminService.getPermissionList(adminId);
