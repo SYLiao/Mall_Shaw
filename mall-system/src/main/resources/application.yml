@@ -23,6 +23,16 @@ spring:
         max-idle: 8
         min-idle: 0
     timeout: 3000ms
+  kafka:
+    bootstrap-servers:
+      - localhost:9092
+    consumer:
+      group-id: me.shaw.mall
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-serializer: org.apache.kafka.common.serialization.StringDeserializer
 
 redis:
   key:
@@ -36,3 +46,10 @@ jwt:
   secret: "Shaw_Liao"
   expire: 604800
   tokenHead: Bearer
+
+data:
+  elasticsearch:
+    repositories:
+      enable: true
+    cluster-node: localhost:9300
+    cluster-name: elasticsearch

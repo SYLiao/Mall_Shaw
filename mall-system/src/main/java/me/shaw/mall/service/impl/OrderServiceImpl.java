@@ -27,18 +27,17 @@ public class OrderServiceImpl implements OrderService {
     private UserAdminRepository userAdminRepository;
 
     @Override
-    public Order createOrder(float transaction, String status) {
+    public Order createOrder(int transaction, String status) {
         Object principle = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(principle instanceof UserDetails && ((UserDetails) principle).getUsername() != null){
             Order newOrder = new Order();
             newOrder.setStatus(status);
             newOrder.setTransactionValue(transaction);
-            newOrder.setCreateTime(new Date());
-            newOrder.setExpireTime(new Date(System.currentTimeMillis() + 1000*60));
+            newOrder.setExpiredTime(new Date(System.currentTimeMillis() + 1000*60));
             orderRepository.saveAndFlush(newOrder);
             UserOrderRelation newRelation = new UserOrderRelation();
             newRelation.setStatus("Processing");
-            newRelation.setOrderId(newOrder.getOrderId());
+            newRelation.setOrderId(newOrder.getId());
             String username = ((UserDetails) principle).getUsername();
             UserAdmin user = userAdminRepository.findByUsername(username).get(0);
             newRelation.setUserId(user.getId());

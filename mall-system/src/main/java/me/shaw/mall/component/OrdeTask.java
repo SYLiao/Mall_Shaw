@@ -26,9 +26,9 @@ public class OrdeTask {
     public void cancelTimeOutOrder(){
         List<Order> orders = orderRepository.findAll();
         for(Order order : orders){
-            if(new Date().after(order.getExpireTime())){
+            if(new Date().after(order.getExpiredTime())){
                 orderRepository.delete(order);
-                userOrderRelationRepository.deleteByOrderId(order.getOrderId());
+                userOrderRelationRepository.deleteByOrderId(order.getId());
             }
         }
     }

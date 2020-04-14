@@ -40,6 +40,8 @@ public class UserAdminController {
         return CommonResult.success(result);
     }
 
+
+    @CrossOrigin("http://localhost/3000")
     @ApiOperation(value = "User login")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public CommonResult login(@RequestBody UserAdmin userAdmin){

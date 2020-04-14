@@ -1,5 +1,6 @@
 package me.shaw.mall.model;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,30 +8,19 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
-@Getter
-@Setter
+@Data
 @Entity
-@Table(name = "Order")
-public class Order implements Serializable {
+@Table(name = "Order_table")
+public class Order{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId;
+    private Long id;
 
-    private Date createTime;
+    private int transactionValue;
 
-    private float transactionValue;
-
-    private Date expireTime;
+    private Date expiredTime;
 
     private String status;
 
-    public Order(){
-    }
-
-    public Order(Long id, float value, String status){
-        this.orderId = id;
-        this.transactionValue = value;
-        this.status = status;
-    }
 }
