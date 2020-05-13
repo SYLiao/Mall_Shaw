@@ -29,6 +29,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import javax.persistence.GeneratedValue;
 import javax.swing.*;
 import java.util.Arrays;
 import java.util.List;
@@ -79,7 +80,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js",
                         "/swagger-resources/**",
-                        "/v2/api-docs/**")
+                        "/v2/api-docs/**",
+                        "/product/**")
                 .permitAll()
                 .antMatchers("/admin/login", "/admin/register")
                 .permitAll()

@@ -11,33 +11,26 @@ import java.io.Serializable;
 @Entity
 @Data
 @Table(name = "mall_product")
-@Document(indexName = "product", type = "product", shards = 1, replicas = 1)
 public class Product implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
 
-    @Field(type = FieldType.Keyword)
     private String productSn;
 
     private Long brandId;
 
-    @Field(type = FieldType.Keyword)
     private String brandName;
 
     private Long productCategoryId;
 
-    @Field(type = FieldType.Keyword)
     private String productCategoryName;
 
-    @Field(analyzer = "ik_max_word",type = FieldType.Text)
     private String name;
 
-    @Field(analyzer = "ik_max_word",type = FieldType.Text)
     private String subTitle;
 
-    @Field(analyzer = "ik_max_word",type = FieldType.Text)
     private String keywords;
 
     private Integer price;
@@ -53,5 +46,4 @@ public class Product implements Serializable {
     private Integer promotionType;
     
     private Integer sort;
-
 }

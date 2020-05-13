@@ -1,5 +1,7 @@
 server:
-  port: 8080
+  port: 8081
+  servlet:
+    path: /rest/service
 
 spring:
   datasource:
@@ -23,16 +25,19 @@ spring:
         max-idle: 8
         min-idle: 0
     timeout: 3000ms
-  kafka:
-    bootstrap-servers:
-      - localhost:9092
-    consumer:
-      group-id: me.shaw.mall
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-serializer: org.apache.kafka.common.serialization.StringDeserializer
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: mall-port
+  main:
+    allow-bean-definition-overriding: true
+  servlet:
+    multipart:
+      max-file-size:
+        2500MB
+      max-request-size:
+        2500MB
 
 redis:
   key:
@@ -53,3 +58,11 @@ data:
       enable: true
     cluster-node: localhost:9300
     cluster-name: elasticsearch
+
+aws:
+  access_key_id: AKIAJMDGWR53JSCU5WMQ
+  secret_access_key: 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
+  s3:
+    bucket: mall-shaw-upload-product
+    region: us-east-2
+    filename: /logo/brand1/
