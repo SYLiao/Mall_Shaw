@@ -58,11 +58,3 @@ data:
       enable: true
     cluster-node: localhost:9300
     cluster-name: elasticsearch
-
-aws:
-  access_key_id: AKIAJMDGWR53JSCU5WMQ
-  secret_access_key: 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
-  s3:
-    bucket: mall-shaw-upload-product
-    region: us-east-2
-    filename: /logo/brand1/
